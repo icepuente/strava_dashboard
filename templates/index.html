@@ -127,6 +127,7 @@
                 <th>Rank</th>
                 <th>Athlete</th>
                 <th>Total Distance (miles)</th>
+                <th>Avg Distance (miles)</th>
                 <th>Total Moving Time</th>
                 <th>Total Elapsed Time</th>
                 <th>Total Elevation Gain (feet)</th>
@@ -139,6 +140,7 @@
                 <td>{{ loop.index }}</td>
                 <td>{{ athlete }}</td>
                 <td>{{ "%.2f"|format(stats.total_distance) }}</td>
+                <td>{{ "%.2f"|format(stats.average_distance) }}</td>
                 <td>{{ stats.total_moving_time|seconds_to_hms }}</td>
                 <td>{{ stats.total_elapsed_time|seconds_to_hms }}</td>
                 <td>{{ "%.0f"|format(stats.total_elevation_gain) }}</td>

@@ -6,7 +6,7 @@ This Flask application creates an interactive leaderboard for a Strava club, dis
 
 - 🔐 OAuth 2.0 authentication with Strava
 - 🔄 Fetches and caches club activities
-- 📊 Calculates total distance, moving time, elapsed time, and elevation gain for each athlete
+- 📊 Calculates total distance, moving time, elapsed time, elevation gain, and average mileage per activity for each athlete
 - 🏆 Displays a sortable leaderboard based on various metrics
 - 📱 Responsive web design with modern UI
 - 🔍 Search functionality for quick athlete lookup

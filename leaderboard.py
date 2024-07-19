@@ -30,6 +30,7 @@ class AthleteStats:
     total_elapsed_time: int
     total_elevation_gain: float
     activity_count: int
+    average_distance: float
 
 # Environment variables
 CLIENT_ID = os.getenv('STRAVA_CLIENT_ID')
@@ -132,7 +133,7 @@ def process_activities(activities: List[Dict]) -> List[Tuple[str, AthleteStats]]
     for activity in activities:
         athlete_name = f"{activity['athlete']['firstname']} {activity['athlete']['lastname']}"
         if athlete_name not in leaderboard:
-            leaderboard[athlete_name] = AthleteStats(0, 0, 0, 0, 0)
+            leaderboard[athlete_name] = AthleteStats(0, 0, 0, 0, 0, 0)
 
         stats = leaderboard[athlete_name]
         stats.total_distance += meters_to_miles(activity['distance'])
@@ -140,6 +141,7 @@ def process_activities(activities: List[Dict]) -> List[Tuple[str, AthleteStats]]
         stats.total_elapsed_time += activity['elapsed_time']
         stats.total_elevation_gain += meters_to_feet(activity['total_elevation_gain'])
         stats.activity_count += 1
+        stats.average_distance = stats.total_distance / stats.activity_count
 
     return sorted(leaderboard.items(), key=lambda x: x[1].total_distance, reverse=True)
 
@@ -159,13 +161,14 @@ def export_csv():
 
     output = StringIO()
     writer = csv.writer(output)
-    writer.writerow(['Rank', 'Athlete', 'Total Distance (miles)', 'Total Moving Time', 'Total Elapsed Time', 'Total Elevation Gain (feet)', 'Number of Activities'])
+    writer.writerow(['Rank', 'Athlete', 'Total Distance (miles)', 'Average Distance (miles)', 'Total Moving Time', 'Total Elapsed Time', 'Total Elevation Gain (feet)', 'Number of Activities'])
 
     for idx, (athlete, stats) in enumerate(leaderboard, 1):
         writer.writerow([
             idx,
             athlete,
             f"{stats.total_distance:.2f}",
+            f"{stats.average_distance:.2f}",
             seconds_to_hms_filter(stats.total_moving_time),
             seconds_to_hms_filter(stats.total_elapsed_time),
             f"{stats.total_elevation_gain:.0f}",
