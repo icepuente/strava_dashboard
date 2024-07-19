@@ -104,7 +104,7 @@ def meters_to_feet(meters: float) -> float:
     return meters * 3.28084
 
 @cached(cache)
-def fetch_club_activities(start_date=None, end_date=None) -> List[Dict]:
+def fetch_club_activities() -> List[Dict]:
     headers = {'Authorization': f'Bearer {get_access_token()}'}
     activities = []
     page = 1
@@ -113,10 +113,6 @@ def fetch_club_activities(start_date=None, end_date=None) -> List[Dict]:
     while True:
         url = f'https://www.strava.com/api/v3/clubs/{CLUB_ID}/activities'
         params = {'page': page, 'per_page': per_page}
-        if start_date:
-            params['after'] = int(start_date.timestamp())
-        if end_date:
-            params['before'] = int(end_date.timestamp())
         response = requests.get(url, headers=headers, params=params)
 
         if response.status_code != 200:
@@ -152,17 +148,9 @@ def index():
     if not token_info.access_token:
         return redirect(url_for('login'))
 
-    start_date = request.args.get('start_date')
-    end_date = request.args.get('end_date')
-
-    if start_date:
-        start_date = datetime.strptime(start_date, '%Y-%m-%d')
-    if end_date:
-        end_date = datetime.strptime(end_date, '%Y-%m-%d')
-
-    activities = fetch_club_activities(start_date, end_date)
+    activities = fetch_club_activities()
     leaderboard = process_activities(activities)
-    return render_template('index.html', leaderboard=leaderboard, start_date=start_date, end_date=end_date)
+    return render_template('index.html', leaderboard=leaderboard)
 
 @app.route('/export_csv')
 def export_csv():
