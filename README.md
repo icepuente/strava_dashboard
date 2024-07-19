@@ -1,16 +1,16 @@
 # Strava Club Leaderboard
 
-## Overview
-
-This Flask application creates a leaderboard for a Strava club, displaying total activities and stats for each member. It uses the Strava API to fetch club activities and presents them in a web interface.
+This Flask application creates an interactive leaderboard for a Strava club, displaying total activities and stats for each member. It uses the Strava API to fetch club activities and presents them in a responsive, sortable web interface.
 
 ## Features
 
 - 🔐 OAuth 2.0 authentication with Strava
 - 🔄 Fetches and caches club activities
 - 📊 Calculates total distance, moving time, elapsed time, and elevation gain for each athlete
-- 🏆 Displays a sorted leaderboard based on total distance
-- 📱 Responsive web design
+- 🏆 Displays a sortable leaderboard based on various metrics
+- 📱 Responsive web design with modern UI
+- 🔍 Search functionality for quick athlete lookup
+- 📄 Pagination for easy navigation through large datasets
 
 ## Prerequisites
 
@@ -58,12 +58,13 @@ This Flask application creates a leaderboard for a Strava club, displaying total
 
 3. If not already authenticated, you'll be redirected to Strava for authorization
 
-4. Once authenticated, you'll see the leaderboard for your Strava club
+4. Once authenticated, you'll see the interactive leaderboard for your Strava club
 
 ## Customization
 
-- To change the appearance of the leaderboard, modify the `templates/index.html` file
+- The leaderboard's appearance can be customized by modifying the CSS in `templates/index.html`
 - Adjust the caching duration by changing the `TTLCache` parameters in `app.py`
+- Modify the DataTables options in `templates/index.html` to change table behavior
 
 ## Contributing
 
@@ -79,6 +80,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Flask](https://flask.palletsprojects.com/) for the web framework
 - [Requests](https://docs.python-requests.org/) for handling HTTP requests
 - [python-dotenv](https://github.com/theskumar/python-dotenv) for managing environment variables
+- [DataTables](https://datatables.net/) for the interactive table functionality
 
 ---
 
