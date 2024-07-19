@@ -24,6 +24,7 @@ class AthleteStats:
     total_moving_time: int
     total_elapsed_time: int
     total_elevation_gain: float
+    activity_count: int
 
 # Environment variables
 CLIENT_ID = os.getenv('STRAVA_CLIENT_ID')
@@ -126,13 +127,14 @@ def process_activities(activities: List[Dict]) -> List[Tuple[str, AthleteStats]]
     for activity in activities:
         athlete_name = f"{activity['athlete']['firstname']} {activity['athlete']['lastname']}"
         if athlete_name not in leaderboard:
-            leaderboard[athlete_name] = AthleteStats(0, 0, 0, 0)
+            leaderboard[athlete_name] = AthleteStats(0, 0, 0, 0, 0)
 
         stats = leaderboard[athlete_name]
         stats.total_distance += meters_to_miles(activity['distance'])
         stats.total_moving_time += activity['moving_time']
         stats.total_elapsed_time += activity['elapsed_time']
         stats.total_elevation_gain += meters_to_feet(activity['total_elevation_gain'])
+        stats.activity_count += 1
 
     return sorted(leaderboard.items(), key=lambda x: x[1].total_distance, reverse=True)
 

@@ -114,6 +114,7 @@
                 <th>Total Moving Time</th>
                 <th>Total Elapsed Time</th>
                 <th>Total Elevation Gain (feet)</th>
+                <th>Number of Activities</th>
             </tr>
         </thead>
         <tbody>
@@ -125,6 +126,7 @@
                 <td>{{ stats.total_moving_time|seconds_to_hms }}</td>
                 <td>{{ stats.total_elapsed_time|seconds_to_hms }}</td>
                 <td>{{ "%.0f"|format(stats.total_elevation_gain) }}</td>
+                <td>{{ stats.activity_count }}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -136,7 +138,7 @@
             $('#leaderboard').DataTable({
                 "order": [[2, "desc"]], // Sort by Total Distance (3rd column) descending by default
                 "columnDefs": [
-                    { "type": "num", "targets": [0, 2, 5] }, // Numeric columns
+                    { "type": "num", "targets": [0, 2, 5, 6] }, // Numeric columns (including the new activity count)
                     { "type": "time", "targets": [3, 4] } // Time columns
                 ],
                 "language": {
