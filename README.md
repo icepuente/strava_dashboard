@@ -11,6 +11,8 @@ This Flask application creates an interactive leaderboard for a Strava club, dis
 - 📱 Responsive web design with modern UI
 - 🔍 Search functionality for quick athlete lookup
 - 📄 Pagination for easy navigation through large datasets
+- 📅 Date range filtering for activities
+- 📊 Export leaderboard data to CSV
 
 ## Prerequisites
 
@@ -51,7 +53,7 @@ This Flask application creates an interactive leaderboard for a Strava club, dis
 
 1. Run the Flask application:
    ```bash
-   python app.py
+   python leaderboard.py
    ```
 
 2. Open a web browser and navigate to `http://localhost:5000`
@@ -60,10 +62,14 @@ This Flask application creates an interactive leaderboard for a Strava club, dis
 
 4. Once authenticated, you'll see the interactive leaderboard for your Strava club
 
+5. Use the date range inputs to filter activities by date
+
+6. Click the "Export to CSV" button to download the leaderboard data as a CSV file
+
 ## Customization
 
 - The leaderboard's appearance can be customized by modifying the CSS in `templates/index.html`
-- Adjust the caching duration by changing the `TTLCache` parameters in `app.py`
+- Adjust the caching duration by changing the `TTLCache` parameters in `leaderboard.py`
 - Modify the DataTables options in `templates/index.html` to change table behavior
 
 ## Contributing

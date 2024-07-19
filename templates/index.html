@@ -101,10 +101,26 @@
         .dataTables_wrapper .dataTables_paginate .ellipsis {
             padding: 0 1em;
         }
+        .export-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #fc4c02;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .export-btn:hover {
+            background-color: #e44500;
+        }
     </style>
 </head>
 <body>
     <h1>Strava Club Leaderboard</h1>
+    <div style="text-align: right; margin-bottom: 20px;">
+        <a href="{{ url_for('export_csv') }}" class="export-btn">Export to CSV</a>
+    </div>
     <table id="leaderboard" class="display">
         <thead>
             <tr>
