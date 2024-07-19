@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strava Club Leaderboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #fc4c02;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #fc4c02;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Strava Club Leaderboard</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Athlete</th>
+                <th>Total Distance (miles)</th>
+                <th>Total Moving Time</th>
+                <th>Total Elapsed Time</th>
+                <th>Total Elevation Gain (feet)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for athlete, stats in leaderboard %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ athlete }}</td>
+                <td>{{ "%.2f"|format(stats.total_distance) }}</td>
+                <td>{{ stats.total_moving_time|seconds_to_hms }}</td>
+                <td>{{ stats.total_elapsed_time|seconds_to_hms }}</td>
+                <td>{{ "%.0f"|format(stats.total_elevation_gain) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
