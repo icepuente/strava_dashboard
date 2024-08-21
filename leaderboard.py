@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Flask, redirect, request, url_for, render_template
+from flask import Flask, redirect, request, url_for, render_template, jsonify, make_response
 import requests
 from cachetools import cached, TTLCache
 import time
@@ -11,10 +11,12 @@ import csv
 from io import StringIO
 from flask import send_file
 from io import BytesIO
+from flask_cors import CORS
 
 load_dotenv()  # Load environment variables from .env file
 
 app = Flask(__name__)
+CORS(app, supports_credentials=True)  # Enable CORS with credential support
 app.secret_key = os.urandom(24)
 
 @dataclass
@@ -51,9 +53,8 @@ def seconds_to_hms_filter(seconds: int) -> str:
 
 @app.route('/login')
 def login():
-    return redirect(
-        f'https://www.strava.com/oauth/authorize?client_id={CLIENT_ID}&response_type=code&redirect_uri={REDIRECT_URI}&approval_prompt=auto&scope=activity:read_all,activity:write'
-    )
+    login_url = f'https://www.strava.com/oauth/authorize?client_id={CLIENT_ID}&response_type=code&redirect_uri={REDIRECT_URI}&approval_prompt=auto&scope=activity:read_all,activity:write'
+    return redirect(login_url)
 
 @app.route('/callback')
 def callback():
@@ -75,7 +76,9 @@ def callback():
     token_info.refresh_token = token_response['refresh_token']
     token_info.expires_at = token_response['expires_at']
 
-    return redirect(url_for('index'))
+    response = make_response(redirect('http://localhost:3000'))
+    response.set_cookie('authenticated', 'true', httponly=True, samesite='Lax')
+    return response
 
 def refresh_access_token():
     token_response = requests.post(
@@ -154,8 +157,29 @@ def index():
     leaderboard = process_activities(activities)
     return render_template('index.html', leaderboard=leaderboard)
 
-@app.route('/export_csv')
-def export_csv():
+@app.route('/api/leaderboard')
+def get_leaderboard():
+    if not token_info.access_token:
+        return jsonify({"error": "Not authenticated"}), 401
+
+    activities = fetch_club_activities()
+    leaderboard = process_activities(activities)
+    return jsonify([
+        {
+            "rank": idx + 1,
+            "athlete": athlete,
+            "totalDistance": round(stats.total_distance, 2),
+            "averageDistance": round(stats.average_distance, 2),
+            "totalMovingTime": stats.total_moving_time,
+            "totalElapsedTime": stats.total_elapsed_time,
+            "totalElevationGain": round(stats.total_elevation_gain, 0),
+            "activityCount": stats.activity_count
+        }
+        for idx, (athlete, stats) in enumerate(leaderboard)
+    ])
+
+@app.route('/api/export_csv')
+def api_export_csv():
     activities = fetch_club_activities()
     leaderboard = process_activities(activities)
 
@@ -185,6 +209,13 @@ def export_csv():
                      mimetype='text/csv',
                      as_attachment=True,
                      download_name='strava_club_leaderboard.csv')
+
+@app.route('/api/check-auth')
+def check_auth():
+    if token_info.access_token:
+        return jsonify({"authenticated": True})
+    else:
+        return jsonify({"authenticated": False})
 
 if __name__ == '__main__':
     app.run(debug=True)

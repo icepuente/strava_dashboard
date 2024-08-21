@@ -1,2 +1,151 @@
+# OS generated files #
+######################
+.DS_Store
+Thumbs.db
+
+# Node.js #
+###########
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Logs #
+########
+logs
+*.log
+*.log.*
+
+# Dependency directories #
+##########################
+/vendor/
+venv/
+__pycache__/
+
+# Python #
+##########
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.python-version
+
+# macOS #
+#########
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows #
+###########
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Visual Studio Code #
+######################
+.vscode/
+
+# IDEs and editors #
+####################
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*.bak
+*.tmp
+*.temp
+
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.out
+*.d
+
+# Packages #
+############
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Images #
+##########
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.svg
+
+# Archives #
+############
+*.7z
+*.dmg
+*.gz
+*.iso
+*.rar
+*.tar
+*.zip
+
+# Documents #
+#############
+*.pdf
+*.doc
+*.docx
+*.xls
+*.xlsx
+*.ppt
+*.pptx
+
+# Databases #
+#############
+*.sql
+*.sqlite
+*.sqlite3
+
+# Environment variables #
+########################
 .env
-venv
+.env.*
+
+# Miscellaneous #
+#################
+*.lock
+*.log
+*.pid
+*.seed
+*.sqlite
+*.log.*
+
+# Temporary files #
+###################
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+
+# Machine specific #
+####################
+.vagrant/
+.idea/
+*.iml
+*.ipch
+
+# OS-generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
