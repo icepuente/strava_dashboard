@@ -83,7 +83,6 @@ This application creates an interactive leaderboard for a Strava club, displayin
 
 1. Start the Flask backend:
    ```bash
-   cd backend
    python leaderboard.py
    ```
 
